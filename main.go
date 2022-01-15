@@ -22,12 +22,10 @@ func main() {
 		log.Fatal(err)
 		return
 	}
-
+	locationHandler := &http2.LocationHandler{Db: db}
 	r := mux.NewRouter()
 	// Add your routes as needed
-	r.HandleFunc("/{ip}/location.{format:(?:xml|json)}", func(writer http.ResponseWriter, request *http.Request) {
-		http2.Location(writer, request, db)
-	}).Methods("GET")
+	r.HandleFunc("/{ip}/location.{format:(?:xml|json)}", locationHandler.Location).Methods("GET")
 
 	srv := &http.Server{
 		Addr: "0.0.0.0:80",

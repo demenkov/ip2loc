@@ -10,7 +10,11 @@ import (
 	"net/http"
 )
 
-func Location(w http.ResponseWriter, r *http.Request, db *ip2location.DB) {
+type LocationHandler struct {
+	Db *ip2location.DB
+}
+
+func (locHandler *LocationHandler) Location(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	ip := vars["ip"]
 	format := vars["format"]
@@ -19,7 +23,7 @@ func Location(w http.ResponseWriter, r *http.Request, db *ip2location.DB) {
 		response.Error(w, format, http.StatusBadRequest)
 		return
 	}
-	loc, err := adapters.Locate(ip, db)
+	loc, err := adapters.Locate(ip, locHandler.Db)
 	if err != nil {
 		response.Error(w, format, http.StatusNotFound)
 		return
