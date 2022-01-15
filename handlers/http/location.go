@@ -2,16 +2,15 @@ package http
 
 import (
 	"github.com/demenkov/ip2loc/adapters"
-	"github.com/demenkov/ip2loc/connectors"
 	"github.com/demenkov/ip2loc/helpers"
 	"github.com/demenkov/ip2loc/response"
 	"github.com/gorilla/mux"
+	"github.com/ip2location/ip2location-go"
 	"net"
 	"net/http"
 )
 
-func Location(w http.ResponseWriter, r *http.Request) {
-	db, _ := connectors.LocationDb()
+func Location(w http.ResponseWriter, r *http.Request, db *ip2location.DB) {
 	vars := mux.Vars(r)
 	ip := vars["ip"]
 	format := vars["format"]

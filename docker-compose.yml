@@ -4,5 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        TOKEN: ${TOKEN}
     ports:
       - "8080:80"
