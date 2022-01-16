@@ -3,9 +3,9 @@ package main
 import (
 	"context"
 	"flag"
-	"github.com/demenkov/ip2loc/connectors"
 	http2 "github.com/demenkov/ip2loc/handlers/http"
 	"github.com/gorilla/mux"
+	"github.com/ip2location/ip2location-go"
 	"log"
 	"net/http"
 	"os"
@@ -17,7 +17,7 @@ func main() {
 	var wait time.Duration
 	flag.DurationVar(&wait, "graceful-timeout", time.Second*15, "the duration for which the server gracefully wait for existing connections to finish - e.g. 15s or 1m")
 	flag.Parse()
-	db, err := connectors.LocationDb()
+	db, err := ip2location.OpenDB(os.Getenv("IPDB"))
 	if err != nil {
 		log.Fatal(err)
 		return
